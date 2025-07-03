@@ -8,7 +8,8 @@ import java.util.Scanner;
 
 public class PostSearch {
 
-    public static void main(String[] args) {
+    // 検索処理を行うインスタンスメソッド
+    public void executeSearch() {
         Scanner scanner = new Scanner(System.in);
         String input = "";
         boolean isValid = false;
@@ -47,7 +48,7 @@ public class PostSearch {
             }
         }
 
-        scanner.close();
+//        scanner.close();
     }
 
     // CSVデータをリストに格納する静的メソッド
@@ -84,7 +85,7 @@ public class PostSearch {
         return csvData;
     }
 
-    // ヴァリデーション数字1~7でかけてみた。。
+    // ヴァリデーションをかける静的メソッド
     public static boolean validateInput(String input) {
         return input.matches("\\d{1,7}"); // 1から7文字の数字ならtrueを返す。
     }
