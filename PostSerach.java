@@ -40,31 +40,56 @@ public class PostSerach {
         
        
         
-     // ダミーデータのためのクラス
+     // ↓ダミーデータのためのクラス(データを受け取るクラスとして採用予定)
          class PostData {
-            String postCode; // 郵便番号
-            String addressKana; // 住所カナ
+        	Integer localNum; //全国地方公共団体コード
+        	Integer oldPostCode; // (旧)郵便番号(5桁)
+        	Integer postCode; // 郵便番号(7桁)
+            
+            String Prefecture; //都道府県名（全角カタカナ）
+            String City; // 市区町村名(全角カタカナ)
+            String Town;//町域名（全角カタカナ）
+
+            String preKanji; //都道府県名（漢字）
+            String cityKanji; //市区町村名（漢字）
+            String townKanji; //町域名（漢字）
+            
 
             // コンストラクタ
-            public PostData(String postCode, String addressKana) {
+            public PostData(Integer localNum, Integer oldPostCode, Integer postCode, String Prefecture, String City, String Town, String preKanji, String cityKanji, String townKanji) {
+                this.localNum = localNum;
+                this.oldPostCode = oldPostCode;
                 this.postCode = postCode;
-                this.addressKana = addressKana;
+                this.Prefecture = Prefecture;
+                this.City = City;
+                this.Town = Town;
+                this.preKanji = preKanji;
+                this.cityKanji = cityKanji;
+                this.townKanji = townKanji; 
             }
         }
     
         
      // 仮の郵便番号データ
-        List<PostData> postDataList = new ArrayList<>();
-        postDataList.add(new PostData("1234567", "カナザワシ"));
-        postDataList.add(new PostData("1234500", "カナザワチョウ"));
-        postDataList.add(new PostData("1234561", "ナカノシ"));
-        postDataList.add(new PostData("4561234", "オオサカシ"));
-        postDataList.add(new PostData("1234000", "アオモリシ"));
+      // ダミーデータを返す静的メソッド
+         public static List<PostData> getDummyData() {
+        	    List<PostData> dummyData = new ArrayList<>();
+        	    dummyData.add(new PostData(1001, 12345, 1234567, "ミヤギケン", "センダイシ", "アオバク", "宮城県", "仙台市", "青葉区"));
+        	    dummyData.add(new PostData(1002, 54321, 7654321, "トウキョウト", "シブヤク", "ヒカリエ", "東京都", "渋谷区", "ヒカリエ"));
+        	    dummyData.add(new PostData(1003, 11111, 1010101, "ホッカイドウ", "サッポロシ", "チュウオウク", "北海道", "札幌市", "中央区"));
+        	    dummyData.add(new PostData(1004, 22222, 2020202, "オオサカフ", "オオサカシ", "キタク", "大阪府", "大阪市", "北区"));
+        	    dummyData.add(new PostData(1005, 33333, 3030303, "フクオカケン", "フクオカシ", "ハカタク", "福岡県", "福岡市", "博多区"));
+        	    return dummyData;
+        }
+         
+         // ↑ダミーデータのためのクラス(データを受け取るクラスとして採用予定)
+         
+         
 
         // 検索条件に合致するデータをフィルタリング
         String searchKey = String.valueOf(number); // 検索用文字列
         List<PostData> results = new ArrayList<>();
-        for (PostData data : postDataList) {
+        for (PostData data : dummyData) {
             if (data.postCode.startsWith(searchKey)) { // 前方一致
                 results.add(data);
             }
@@ -81,7 +106,7 @@ public class PostSerach {
         } else {
             System.out.println("検索結果:");
             for (PostData data : results) {
-                System.out.println("郵便番号: " + data.postCode + ", 住所: " + data.addressKana);
+            	System.out.println("郵便番号: " + data.postCode + ", 住所: " + data.preKanji + " " + data.cityKanji + " " + data.townKanji);
             }
         }
 
