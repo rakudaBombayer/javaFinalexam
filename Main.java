@@ -1,8 +1,5 @@
 package Final;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
@@ -16,17 +13,20 @@ public class Main {
 		String csvFile = "src/Final/郵便番号データ.csv"; // 読み込むCSVファイルのパスを指定
         String line;
 //        String delimiter = ","; // CSVファイルの区切り文字
-
-        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
-            while ((line = br.readLine()) != null) {
-                String[] values = line.split(",");
-                for (String value : values) {
-                    System.out.println(value); // 読み取ったデータを表示
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace(); // エラーメッセージを表示
-        }
+        
+        
+        
+//        読み込みと表示↓（一旦コメントアウト）
+//        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+//            while ((line = br.readLine()) != null) {
+//                String[] values = line.split(",");
+//                for (String value : values) {
+//                    System.out.println(value); // 読み取ったデータを表示
+//                }
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace(); // エラーメッセージを表示
+//        }
         
         //↓郵便番号検索か住所検索かの分岐(クラスかしてもいいかも)
           
@@ -45,7 +45,8 @@ public class Main {
         			if ("1".equalsIgnoreCase(input)) {
         				System.out.println("郵便番号検索クラスが入る予定");
         				
-        				//var post = new PostSerach()
+        				PostSearch postSearch = new PostSearch();
+        	            postSearch.executeSearch(); 
         				
         				
         				//↓Sortクラスデータを表示するクラスを入れる
@@ -55,20 +56,21 @@ public class Main {
             		
             		
         				//↑Sortクラスデータを表示するクラス
+        	            System.out.println("検索が終了しました。");
         				
         				break;
         			} else if ("2".equalsIgnoreCase(input)) {
         				System.out.println("住所検索クラスが入る予定");
         				
-        				//var Adress = new AdressSerach()
-        				
+        				AddressSearch Address = new AddressSearch();
+        				Address.executeSearch();
         				
         				//↓Sortクラスデータを表示するクラスを入れる
                 		
                 		
             			//postのデータか住所のデータをでヒットしたものを受け取る。    		
             		
-            		
+        				System.out.println("住所検索クラスを入れてみました。");
         				//↑Sortクラスデータを表示するクラス
         				  				
         				break;
