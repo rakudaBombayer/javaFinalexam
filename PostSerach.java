@@ -3,6 +3,8 @@ package Final;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -37,7 +39,22 @@ public class PostSearch {
                 results.add(data);
             }
         }
-
+        
+        //Prefecture ④住所カナ１　…………　都道府県名（全角カタカナ）(昇順)1
+        //City ⑤住所カナ２　…………　市区町村名(全角カタカナ)(昇順)2
+        //Town⑥住所カナ３　…………　町域名（全角カタカナ）(昇順)3
+        
+        // 複数条件でソート
+        Collections.sort(csvData, Comparator
+                .comparing((PostData data) -> data.Prefecture) // Prefectureで昇順ソート
+                .thenComparing(data -> data.City)             // Cityで昇順ソート
+                .thenComparing(data -> data.Town)             // Townで昇順ソート
+            );
+        
+        
+        
+        
+        
         // 結果を表示
         if (results.isEmpty()) {
             System.out.println("検索条件に一致するデータはありませんでした。");
