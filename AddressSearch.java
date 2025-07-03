@@ -44,7 +44,7 @@ public class AddressSearch {
         
         for (PostData data : csvData) {
         	// 完全一致と前方一致
-            if (data.postCode.equals(searchPreKey) && data.postCode.startsWith(searchCityKey.substring(0, Math.min(searchCityKey.length(), 3) )))
+            if (data.preKanji.equals(searchPreKey) && data.cityKanji.startsWith(searchCityKey.substring(0, Math.min(searchCityKey.length(), 3) )))
             { 
                 results.add(data);
             }
