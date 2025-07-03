@@ -1,101 +1,116 @@
 package Final;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
-public class AddressSearch {
-	
-	
-	//指定した都道府県名を住所漢字１に完全一致で、市区町村名を住所漢字２～３に前方一致で検索
-	
-	
-    // 検索処理を行うインスタンスメソッド
-    public void executeSearch() {
+public class Main {
+
+	public static void main(String[] args) {
+		// TODO 自動生成されたメソッド・スタブ
+		
+		
+		//↓CSVのデータを読み込む(クラスかしてもいいかも)
+		
+		String csvFile = "src/Final/郵便番号データ.csv"; // 読み込むCSVファイルのパスを指定
+        String line;
+//        String delimiter = ","; // CSVファイルの区切り文字
+        
+        
+        
+//        読み込みと表示↓（一旦コメントアウト）
+//        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+//            while ((line = br.readLine()) != null) {
+//                String[] values = line.split(",");
+//                for (String value : values) {
+//                    System.out.println(value); // 読み取ったデータを表示
+//                }
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace(); // エラーメッセージを表示
+//        }
+        
+        //↓郵便番号検索か住所検索かの分岐(クラスかしてもいいかも)
+          
+        
         Scanner scanner = new Scanner(System.in);
         String input = "";
-        String input2 = "";
-        boolean isValid = false;
-
-        // 有効な入力を得られるまで繰り返す
-        while (!isValid) {
-            System.out.print("検索する都道府県を入力(漢字): ");
-            input = scanner.nextLine();
-            
-            System.out.print("検索する市区町村を入力(漢字): ");
-            input2 = scanner.nextLine();
-            
-            if (validateInput(input) && validateInput(input2)) {
-                isValid = true; // 有効な場合ループ終了
-            } else {
-                System.out.println("日本語で入力してください。");
-            }
-        }
-
-        // CSVデータを取得
-        List<PostData> csvData = getCSVData();
-
-        // 検索条件に合致するデータをフィルタリング
-        String searchPreKey = input; // 検索用文字列
-        String searchCityKey = input2;
-        List<PostData> results = new ArrayList<>();
         
-        for (PostData data : csvData) {
-        	// 完全一致と前方一致
-            if (data.preKanji.equals(searchPreKey) && data.cityKanji.startsWith(searchCityKey.substring(0, Math.min(searchCityKey.length(), 3) )))
-            { 
-                results.add(data);
-            }
+      //再度入力を求めるためのwhile文
+         while (true) {
+        
+        		while (true) {
+        			System.out.println("検索条件を選択(1･･･郵便番号/2･･･住所)：");
+        			input =scanner.nextLine();
+        	
+        	
+        			if ("1".equalsIgnoreCase(input)) {
+        				System.out.println("郵便番号検索クラスが入る予定");
+        				
+        				PostSearch postSearch = new PostSearch();
+        	            postSearch.executeSearch(); 
+        				
+        				
+        				//↓Sortクラスデータを表示するクラスを入れる
+                		
+                		
+            			//postのデータか住所のデータをでヒットしたものを受け取る。    		
+            		
+            		
+        				//↑Sortクラスデータを表示するクラス
+        	            System.out.println("検索が終了しました。");
+        				
+        				break;
+        			} else if ("2".equalsIgnoreCase(input)) {
+        				System.out.println("住所検索クラスが入る予定");
+        				
+        				AddressSearch Address = new AddressSearch();
+        				Address.executeSearch();
+        				
+        				//↓Sortクラスデータを表示するクラスを入れる
+                		
+                		   		
+            		
+        				//↑Sortクラスデータを表示するクラス
+        				  				
+        				break;
+        			} else {
+        				System.out.println("無効な入力です。1 または 2 を選択してください。");
+        			}
+           
+        		}
+        	//いらんかも↓
+        		//↓Sortクラスデータを表示するクラスを入れる
+        		
+        		
+        			//postのデータか住所のデータをでヒットしたものを受け取る。    		
+        		
+        		
+        		//↑Sortクラスデータを表示するクラス
+        	//いらんかも↑
+             
+
+        	//↓もう一度検索するかどうかを聞きyesならまた郵便検索か住所検索かまで戻る
+        	while (true) { 
+        		
+        		System.out.println("新たな条件で検索しますか？(y/n)：");
+        		String reinput = "";
+        		reinput =scanner.nextLine();  		
+
+        		if ("y".equalsIgnoreCase(reinput)) {
+        			System.out.println("続ける");
+        			break;
+        		} else if ("n".equalsIgnoreCase(reinput)) {
+        			System.out.println("続けない");
+        			scanner.close();
+        			return;
+        		} else {
+        			System.out.println("無効な入力です。y または n を選択してください。");
+
+        		}
+        
+        	}       	
+        	
         }
+        
+	}
 
-        // 結果を表示
-        if (results.isEmpty()) {
-            System.out.println("該当なし");
-        } else {
-            System.out.println("検索結果:");
-            for (PostData data : results) {
-                System.out.println("郵便番号: " + data.postCode + ", 住所: " + data.preKanji + " " + data.cityKanji + " " + data.townKanji);
-            }
-        }
-
-//        scanner.close();
-    }
-
-    // CSVデータをリストに格納する静的メソッド
-    public static List<PostData> getCSVData() {
-        List<PostData> csvData = new ArrayList<>();
-        String csvFile = "src/Final/郵便番号データ.csv"; // 読み込むCSVファイルのパスを指定
-        String line;
-
-        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
-            while ((line = br.readLine()) != null) {
-                // CSVの各行を分割して PostData オブジェクトに変換
-                String[] values = line.split(",");
-               
-                    PostData data = new PostData(
-                        values[0], 
-                        values[1], 
-                        values[2], 
-                        values[3], 
-                        values[4], 
-                        values[5], 
-                        values[6], 
-                        values[7], 
-                        values[8]
-                    );
-                    csvData.add(data); // リストに追加
-            }
-        } catch (Exception e) {
-            e.printStackTrace(); // エラーが発生した場合の処理
-        }
-
-        return csvData;
-    }
-
-    // ヴァリデーションをかける静的メソッド
-    public static boolean validateInput(String input) {
-        return input.matches("[\\u3040-\\u30FF\\u4E00-\\u9FFF]+"); // 1から7文字の数字ならtrueを返す。
-    }
 }
