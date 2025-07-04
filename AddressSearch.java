@@ -53,9 +53,14 @@ public class AddressSearch {
                 results.add(data);
             }
         }
-        //Prefecture ④住所カナ１　…………　都道府県名（全角カタカナ）(昇順)1
-        //City ⑤住所カナ２　…………　市区町村名(全角カタカナ)(昇順)2
-        //Town⑥住所カナ３　…………　町域名（全角カタカナ）(昇順)3
+        
+     // 検索結果を確認
+        if (results.isEmpty()) { // リストが空の場合
+             System.out.println("該当なし");
+        } else {
+          	
+         //ヒットしたものがあったときの処理を書くところ
+
         
         // 複数条件でソート
         Collections.sort(csvData, Comparator
@@ -65,11 +70,6 @@ public class AddressSearch {
         );
 
         
-        
-        //何件ずつ表示するかを決める処理↓
-//        System.out.print("表示する件数を入力してください: ");
-//        String inputPage = scanner.nextLine();
-//        Integer pageSize = Integer.parseInt(inputPage); 
         
         
         Integer pageSize = 1; //グローバーるに使うため、外に出した。(除算で0のエラーが出たため、とりあえず1にした。)
@@ -107,15 +107,17 @@ public class AddressSearch {
                 System.out.println("表示件数"+ start + "～" + end +"検索件数：" + totalResults);
                 
                 
-                //最後のページ数だけ+1されていない
-             // ユーザー入力で続きを表示するかどうか判断
+            if( totalResults <= pageSize) {
+//                System.out.println("★★★★★★★★★★★★★★★★★★★★★");
+                break;
+             }
              
                 
               System.out.println("表示を継続しますか？(y/n):");
                 
 	          boolean validInput = false; // 入力が有効かどうかを判定するフラグ
 	          while (!validInput) {
-	            String userInput = scanner.nextLine().trim(); // 入力を取得してトリム（余計な空白を除去）
+	            String userInput = scanner.nextLine().trim(); 
 	                if (userInput.equalsIgnoreCase("y")) {
 	                        System.out.println("次のページを表示します...");
 	                        validInput = true; // 入力が有効
@@ -128,20 +130,9 @@ public class AddressSearch {
 	            }
             }
         }
+      } //該当なしの閉じタグ 
         
-        
-        // 結果を表示
-//        if (results.isEmpty()) {
-//            System.out.println("該当なし");
-//        } else {
-//            System.out.println("検索結果:");
-//            for (PostData data : results) {
-//                System.out.println("郵便番号: " + data.postCode + ", 住所: " + data.preKanji + " " + data.cityKanji + " " + data.townKanji);
-//            }
-//        }
-
-//        scanner.close();
-    }
+   }
 
     // CSVデータをリストに格納する静的メソッド
     public static List<PostData> getCSVData() {
