@@ -19,7 +19,7 @@ public class PostSearch {
         
         // 有効な入力を得られるまで繰り返す
         while (!isValid) {
-            System.out.print("7文字までの整数を入力してください: ");
+            System.out.print("郵便番号を7文字までの整数で入力してください: ");
             input = scanner.nextLine();
 
             if (validateInput(input)) {
@@ -41,9 +41,19 @@ public class PostSearch {
             }
         }
         
-        //Prefecture ④住所カナ１　…………　都道府県名（全角カタカナ）(昇順)1
-        //City ⑤住所カナ２　…………　市区町村名(全角カタカナ)(昇順)2
-        //Town⑥住所カナ３　…………　町域名（全角カタカナ）(昇順)3
+        
+     // 検索結果を確認
+      if (results.isEmpty()) { // リストが空の場合
+           System.out.println("該当なし");
+      } else {
+        	
+       //ヒットしたものがあったときの処理を書くところ
+       
+        
+        
+        
+        
+        
         
         // 複数条件でソート
         Collections.sort(csvData, Comparator
@@ -53,7 +63,7 @@ public class PostSearch {
             );
         
         
-Integer pageSize = 1; //グローバーるに使うため、外に出した。(除算で0のエラーが出たため、とりあえず1にした。)
+        Integer pageSize = 1; //グローバーるに使うため、外に出した。(除算で0のエラーが出たため、とりあえず1にした。)
         
         while (!isValid2) {
         	System.out.print("表示する件数を入力してください: ");
@@ -87,6 +97,10 @@ Integer pageSize = 1; //グローバーるに使うため、外に出した。(�
                 System.out.println("----------------------------------------");
                 System.out.println("表示件数"+ start + "～" + end +"検索件数：" + totalResults);
                 
+                if( totalResults <= pageSize) {
+//                	System.out.println("★★★★★★★★★★★★★★★★★★★★★");
+                	break;
+                }
                 
                 //最後のページ数だけ+1されていない
              // ユーザー入力で続きを表示するかどうか判断
@@ -110,7 +124,7 @@ Integer pageSize = 1; //グローバーるに使うため、外に出した。(�
             }
         }
         
-        
+      } //該当なしの閉じタグ 
         
         
         
