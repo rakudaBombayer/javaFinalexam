@@ -97,14 +97,11 @@ public class PostSearch {
                 System.out.println("----------------------------------------");
                 System.out.println("表示件数"+ start + "～" + end +"検索件数：" + totalResults);
                 
-                if( totalResults <= pageSize) {
-//                	System.out.println("★★★★★★★★★★★★★★★★★★★★★");
+                if( totalResults <= end) {
+                	System.out.println("★★★★★★★★★★★★★★★★★★★★★");
                 	break;
                 }
                 
-                //最後のページ数だけ+1されていない
-             // ユーザー入力で続きを表示するかどうか判断
-             
                 
               System.out.println("表示を継続しますか？(y/n):");
                 
@@ -125,12 +122,7 @@ public class PostSearch {
         }
         
       } //該当なしの閉じタグ 
-        
-        
-        
-        
-        
-        
+   
         
         // 結果を表示
 //        if (results.isEmpty()) {
