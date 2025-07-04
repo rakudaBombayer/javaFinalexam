@@ -21,7 +21,7 @@ public class AddressSearch {
         String input2 = "";
 //        String inputSerachNum;
         boolean isValid = false;
-
+        boolean isValid2 = false;
         // 有効な入力を得られるまで繰り返す
         while (!isValid) {
             System.out.print("検索する都道府県を入力(漢字): ");
@@ -67,21 +67,46 @@ public class AddressSearch {
         
         
         //何件ずつ表示するかを決める処理↓
-        System.out.print("表示する件数を入力してください: ");
-        String inputPage = scanner.nextLine();
-        Integer pageSize = Integer.parseInt(inputPage); 
+//        System.out.print("表示する件数を入力してください: ");
+//        String inputPage = scanner.nextLine();
+//        Integer pageSize = Integer.parseInt(inputPage); 
         
         
+        Integer pageSize = 1; //グローバーるに使うため、外に出した。(除算で0のエラーが出たため、とりあえず1にした。)
+        
+        while (!isValid2) {
+        	System.out.print("表示する件数を入力してください: ");
+            String inputPage = scanner.nextLine();
+            
+            
+            if (validateNum(inputPage) ) {
+            	pageSize = Integer.parseInt(inputPage);
+                isValid2 = true; // 有効な場合ループ終了
+            } else {
+                System.out.println("数値で入力してください。");
+            }
+        }
+        
+     
         int totalResults = results.size(); // 結果の総件数
+        
+        
 
         for (int i = 0; i < totalResults; i++) {
             // 現在のデータを表示
             System.out.println("郵便番号: " + results.get(i).postCode + ", 住所: " + results.get(i).preKanji + " " + results.get(i).cityKanji + " " + results.get(i).townKanji);
 
             // 入力した件ごとに区切りを追加
+            
+            int currentPage = (i / pageSize) + 1; // 現在のページ数
+            int start = ((currentPage - 1) * pageSize) + 1; // 開始番号
+            int end = Math.min(currentPage * pageSize, totalResults); // 終了番号
+            
             if ((i + 1) % pageSize == 0 || i == totalResults - 1) {
                 System.out.println("----------------------------------------");
-                System.out.println("表示件数"+ pageSize+ "検索件数：" + totalResults);
+                System.out.println("表示件数"+ start + "～" + end +"検索件数：" + totalResults);
+                
+                
                 //最後のページ数だけ+1されていない
              // ユーザー入力で続きを表示するかどうか判断
              
@@ -152,5 +177,9 @@ public class AddressSearch {
     // ヴァリデーションをかける静的メソッド
     public static boolean validateInput(String input) {
         return input.matches("[\\u3040-\\u30FF\\u4E00-\\u9FFF]+"); // 1から7文字の数字ならtrueを返す。
+    }
+    
+    public static boolean validateNum(String input) {
+        return input.matches("[0-9]+"); // 1から7文字の数字ならtrueを返す。
     }
 }
