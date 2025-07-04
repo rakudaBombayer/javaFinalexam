@@ -107,7 +107,7 @@ public class AddressSearch {
                 System.out.println("表示件数"+ start + "～" + end +"検索件数：" + totalResults);
                 
                 
-            if( totalResults <= pageSize) {
+            if(totalResults <= end) {
 //                System.out.println("★★★★★★★★★★★★★★★★★★★★★");
                 break;
              }
